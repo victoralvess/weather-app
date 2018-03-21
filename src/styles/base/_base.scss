@@ -1,0 +1,20 @@
+span {
+  margin: 2px;
+
+
+  font-size: 14px;
+  font-weight: bolder;
+
+  text-align: center;
+}
+
+div {
+  display: flex;
+}
+
+h1 {
+  font-size: $title-font-size;
+  text-align: center;
+
+  margin: 0;
+}

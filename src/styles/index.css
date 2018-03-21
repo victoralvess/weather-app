@@ -1,0 +1,105 @@
+*, *::before, *::after {
+  box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background: #eaeaea; }
+
+span {
+  margin: 2px;
+  font-size: 14px;
+  font-weight: bolder;
+  text-align: center; }
+
+div {
+  display: flex; }
+
+h1 {
+  font-size: 16px;
+  text-align: center;
+  margin: 0; }
+
+.container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center; }
+
+.forecasts-list {
+  perspective: 1000px;
+  border-radius: 4px; }
+
+.forecasts-list .forecast-card:nth-child(-n + 1) {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px; }
+
+.forecasts-list .forecast-card:nth-last-child(-n + 1) {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px; }
+
+/* From DevTips */
+.progress-bar {
+  width: 200px;
+  height: 25px;
+  background: white;
+  border: 4px solid white;
+  box-shadow: 0px 20px 25px -10px rgba(0, 0, 0, 0.3); }
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background-color: #8c70df;
+  animation: progress linear 4s infinite; }
+
+@keyframes progress {
+  0%, 30% {
+    width: 0%; }
+  30% {
+    width: 20%; }
+  40% {
+    width: 70%; }
+  60% {
+    width: 65%; }
+  70%, 90% {
+    width: 80%; }
+  90%, 95% {
+    width: 98%; }
+  95%, 97% {
+    width: 96%; }
+  100% {
+    width: 100%; } }
+
+.forecast-card {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  animation: fade 300ms ease-in-out 1 forwards;
+  width: 100px;
+  height: 140px;
+  padding: 10px;
+  background: #fff; }
+
+.forecast-card__day-name {
+  color: #a1a1a1; }
+
+.forecast-card__icon {
+  width: 60px;
+  height: 60px; }
+
+.forecast-card__temperatures {
+  justify-content: space-between; }
+
+.forecast-card__temperatures--minimum {
+  color: #d8d8d8; }
+
+.forecast-card__temperatures--maximum {
+  color: #c8c8c8; }
+
+@keyframes fade {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
