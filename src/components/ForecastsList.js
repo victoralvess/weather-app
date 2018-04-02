@@ -1,69 +1,58 @@
-import React, { Component } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 
-import ForecastCard from './ForecastCard';
+import Card from './Forecast/Card';
+import Day from './Forecast/Card/Day';
+import Icon from './Forecast/Card/Icon';
+import Temperatures from './Forecast/Card/Temperatures';
+import Temperature from './Forecast/Card/Temperature';
 
-export default class ForecastsList extends Component {
+const iconsMapping = {
+  'clear-day': 'clear-day',
+  'clear-night': 'clear-night',
+  'partly-cloudy-day': 'partly-cloudy',
+  'partly-cloudy-night': 'partly-cloudy-night',
+  rain: 'rainy-weather',
+  snow: 'snow-weather',
+  sleet: 'snow-weather',
+  wind: 'wind-weather',
+  fog: 'haze-weather',
+  cloudy: 'cloudy-weather'
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      forecasts: []
-    };
+const StyledList = styled.div`
+  border-radius: 4px;
 
-    /* From API Icons To public/icons Icons */
-    this.iconsMapping = {
-      'clear-day': 'clear-day',
-      'clear-night': 'clear-night',
-      'partly-cloudy-day': 'partly-cloudy',
-      'partly-cloudy-night': 'partly-cloudy-night',
-      rain: 'rainy-weather',
-      snow: 'snow-weather',
-      sleet: 'snow-weather',
-      wind: 'wind-weather',
-      fog: 'haze-weather',
-      cloudy: 'cloudy-weather',
-    }
-
-    this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  & > *:nth-child(-n + 1) {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
   }
 
-  async componentDidMount() {
-    const locationResponse = await fetch('https://location.services.mozilla.com/v1/geolocate?key=test');
-    const position = await locationResponse.json();
-    const { lat, lng } = position.location;
-    const forecastsResponse = await fetch(
-      `//localhost:4000/api/v1/json?lat=${lat}&lng=${lng}&units=si`
-    );
-    const data = await forecastsResponse.json();
-    this.setState({
-      forecasts: data.daily.data
-    });
+  & > :nth-last-child(-n + 1) {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
+`;
 
-  render() {
-    const { forecasts } = this.state;
-    return (
-      <div className="forecasts-list">
-        {
-          (forecasts.length > 0) ? forecasts.map((forecast, i) => {
-            let time = forecast.time * 1000;
-            let date = new Date(time);
-            let day = this.days[date.getDay()].substr(0, 3);
-            return (
-              <ForecastCard
-                key={i}
-                day={day}
-                icon={`./icons/${this.iconsMapping[forecast.icon]}.png`}
-                minTemperature={`${Math.round(forecast.temperatureMin)}ºC`}
-                maxTemperature={`${Math.round(forecast.temperatureMax)}ºC`}/>
-            );
-          }) : (
-                <div className="progress-bar">
-                  <div className="progress"></div>
-                </div>
-              )
-        }
-      </div>
-    )
-  }
-}
+export default ({ forecasts }) => {
+  return (
+    <StyledList>
+      {forecasts.map((forecast, i) => {
+        return (
+          <Card key={i}>
+            <Day time={forecast.time * 1000} />
+            <Icon path={`./icons/${iconsMapping[forecast.icon]}.png`} />
+            <Temperatures>
+              <Temperature min="true">
+                {Math.round(forecast.temperatureMin)}ºC
+              </Temperature>
+              <Temperature max="true">
+                {Math.round(forecast.temperatureMax)}ºC
+              </Temperature>
+            </Temperatures>
+          </Card>
+        );
+      })}
+    </StyledList>
+  );
+};
